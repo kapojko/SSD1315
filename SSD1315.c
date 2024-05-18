@@ -7,7 +7,7 @@
 #define CHECK_COLUMNS(x, width) (x >= 0 && width > 0 && x + width <= SSD1315_COL_COUNT)
 #define DATA_SIZE(width, height8x) (height8x / SSD1315_BITS_PER_PAGE * width)
 
-static struct SSD1315Platform *ssd1315Platform;
+static struct SSD1315_Platform *platform;
 
 // NOTE: if array is partly initialized, all non-mentioned elements will be set to 0
 static uint8_t buffer[SSD1315_BUFF_SIZE + 1] = { SSD1315_DATA, 0 };
@@ -15,9 +15,9 @@ static uint8_t buffer[SSD1315_BUFF_SIZE + 1] = { SSD1315_DATA, 0 };
 static void writeToLcd(uint8_t data[], int len) {
     int err;
 
-    err = ssd1315Platform->i2cWrite(SSD1315_I2C_ADDR, data, len, 1, 1);
+    err = platform->i2cWrite(platform->i2cAddr, data, len, 1, 1);
     if (err) {
-        ssd1315Platform->debugPrint("I2C write error: %d\r\n", -err);
+        platform->debugPrint("I2C write error: %d\r\n", -err);
     }
 }
 
@@ -48,8 +48,8 @@ static void writeDataFromBuffer(int pageStart, int pageEnd, int colStart, int co
     }
 }
 
-void SSD1315_Init(struct SSD1315Platform *platform) {
-    ssd1315Platform = platform;
+void SSD1315_Init(struct SSD1315_Platform *platformPtr) {
+    platform = platformPtr;
 }
 
 void SSD1315_DefInit(bool xyFlip) {

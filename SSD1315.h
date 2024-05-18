@@ -108,12 +108,14 @@ typedef enum {
     SSD1315_CHARGE_PUMP_MODE9V = 0x95,
 } SSD1315ChargePumpMode;
 
-struct SSD1315Platform {
+struct SSD1315_Platform {
     int (*i2cWrite)(uint8_t addr_7bit, const uint8_t *data, uint8_t length, uint8_t wait, uint8_t send_stop);
     void (*debugPrint)(const char *fmt, ...);
+    
+    uint8_t i2cAddr;
 };
 
-void SSD1315_Init(struct SSD1315Platform *platform);
+void SSD1315_Init(struct SSD1315_Platform *platform);
 
 void SSD1315_DefInit(bool xyFlip);
 
