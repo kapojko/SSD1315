@@ -102,7 +102,7 @@ void SSD1315_DisplayStartLineSet(uint8_t line) {
     writeToLcd(cmd, sizeof(cmd));
 }
 
-void SSD1315_MemoryModeSet(SSD1315MemMode mode) {
+void SSD1315_MemoryModeSet(SSD1315_MemMode mode) {
     uint8_t cmd[] = {
         SSD1315_CMD,
         SSD1315_CMD_MAM,
@@ -182,12 +182,12 @@ void SSD1315_ComPinsSet(bool alternative, bool left_right_remap) {
     writeToLcd(cmd, sizeof(cmd));
 }
 
-void SSD1315_VcomhLevelSet(SSD1315VcomLevel level) {
+void SSD1315_VcomhLevelSet(SSD1315_VcomLevel level) {
     uint8_t cmd[] = { SSD1315_CMD, SSD1315_CMD_VCSL, (uint8_t)level };
     writeToLcd(cmd, sizeof(cmd));
 }
 
-void SSD1315_ChargePumpModeSet(SSD1315ChargePumpMode mode) {
+void SSD1315_ChargePumpModeSet(SSD1315_ChargePumpMode mode) {
     uint8_t cmd[] = {
         SSD1315_CMD,
         SSD1315_CMD_CPS,

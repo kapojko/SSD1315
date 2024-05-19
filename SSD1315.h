@@ -7,7 +7,7 @@
 #include <stdbool.h>
 
 // I2C address
-#define SSD1315_I2C_ADDR 0x3C
+#define SSD1315_I2C_ADDR_DEF 0x3C
 #define SSD1315_I2C_ADDR_ALTERNATE 0x3D // depends on D/C# pin
 
 #define SSD1315_I2C_BUFFER_SIZE 32
@@ -92,21 +92,21 @@ typedef enum {
     SSD1315_MEM_MODE_HORIZ = 0x00,
     SSD1315_MEM_MODE_VERT = 0x01,
     SSD1315_MEM_MODE_PAGE = 0x02,
-} SSD1315MemMode;
+} SSD1315_MemMode;
 
 typedef enum {
     SSD1315_VCOM_LEVEL065 = 0x00,
     SSD1315_VCOM_LEVEL071 = 0x10,
     SSD1315_VCOM_LEVEL077 = 0x20,
     SSD1315_VCOM_LEVEL083 = 0x30,
-} SSD1315VcomLevel;
+} SSD1315_VcomLevel;
 
 typedef enum {
     SSD1315_CHARGE_PUMP_DISABLE = 0x10,
     SSD1315_CHARGE_PUMP_MODE7V = 0x14,
     SSD1315_CHARGE_PUMP_MODE8_5V = 0x94,
     SSD1315_CHARGE_PUMP_MODE9V = 0x95,
-} SSD1315ChargePumpMode;
+} SSD1315_ChargePumpMode;
 
 struct SSD1315_Platform {
     int (*i2cWrite)(uint8_t addr_7bit, const uint8_t *data, uint8_t length, uint8_t wait, uint8_t send_stop);
@@ -123,7 +123,7 @@ void SSD1315_DisplayOn(bool enable);
 void SSD1315_EntireDisplayOn(bool enable);
 void SSD1315_ColumnStartAddressSet(uint8_t addr);
 void SSD1315_DisplayStartLineSet(uint8_t line);
-void SSD1315_MemoryModeSet(SSD1315MemMode mode);
+void SSD1315_MemoryModeSet(SSD1315_MemMode mode);
 void SSD1315_PageStartAddressSet(uint8_t addr);
 void SSD1315_ContrastSet(uint8_t contrast);
 void SSD1315_SegmentRemap(bool remap);
@@ -133,8 +133,8 @@ void SSD1315_DisplayOffsetSet(uint8_t offset);
 void SSD1315_ClockSet(uint8_t freq, uint8_t divider);
 void SSD1315_PrechargePeriodSet(uint8_t period);
 void SSD1315_ComPinsSet(bool alternative, bool left_right_remap);
-void SSD1315_VcomhLevelSet(SSD1315VcomLevel level);
-void SSD1315_ChargePumpModeSet(SSD1315ChargePumpMode mode);
+void SSD1315_VcomhLevelSet(SSD1315_VcomLevel level);
+void SSD1315_ChargePumpModeSet(SSD1315_ChargePumpMode mode);
 void SSD1315_DisplayInvert(bool invert);
 void SSD1315_ColumnAddressSet(uint8_t begin, uint8_t end);
 void SSD1315_PageAddressSet(uint8_t begin, uint8_t end);
