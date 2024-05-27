@@ -20,12 +20,6 @@
 
 #define SSD1315_BUFF_SIZE (SSD1315_COL_COUNT * SSD1315_PAGE_COUNT)
 
-// Error codes
-#define SSD1315_ERR_I2C -1
-#define SSD1315_ERR_INVALID_ROW -2
-#define SSD1315_ERR_INVALID_COL -3
-#define SSD1315_ERR_INVALID_LENGTH -4
-
 typedef enum {
     SSD1315_MEM_MODE_HORIZ = 0x00,
     SSD1315_MEM_MODE_VERT = 0x01,
@@ -87,11 +81,11 @@ int SSD1315_ClearScreen(void);
  * @param data data, encoding order: each byte denotes 8 pixels in a column (LSB on the top, MSB on the bottom),
  *     bytes go from left to right and byte sequences go from top to bottom
  * @param dataSize data length
- * @return 0 on success, SSD1315_ERR_... on error
+ * @return success status
 */
-int SSD1315_OutputPreparedBitmap(int x, int y8x, int width, int height8x, const uint8_t *data, int dataSize);
+bool SSD1315_OutputPreparedBitmap(int x, int y8x, int width, int height8x, const uint8_t *data, int dataSize);
 
-int SSD1315_FillArea(int x, int y8x, int width, int height8x, uint8_t data);
+bool SSD1315_FillArea(int x, int y8x, int width, int height8x, int data);
 
 
 #endif // SSD1315_H

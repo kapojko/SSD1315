@@ -294,45 +294,52 @@ int SSD1315_ClearScreen(void) {
     return 0;
 }
 
-int SSD1315_OutputPreparedBitmap(int x, int y8x, int width, int height8x, const uint8_t *data, int dataSize) {
+bool SSD1315_OutputPreparedBitmap(int x, int y8x, int width, int height8x, const uint8_t *data, int dataSize) {
     // check rows
     if (!CHECK_ROWS(y8x, height8x)) {
-        return SSD1315_ERR_INVALID_ROW;
+        platform->debugPrint("Invalid y8x or height8x: %d, %d\r\n", y8x, height8x);
+        return false;
     }
 
     // check columns
     if (!CHECK_COLUMNS(x, width)) {
-        return SSD1315_ERR_INVALID_COL;
+        platform->debugPrint("Invalid x or width: %d, %d\r\n", x, width);
+        return false;
     }
 
     // check length
     int calcDataSize = DATA_SIZE(width, height8x);
     if (calcDataSize != dataSize) {
-        return SSD1315_ERR_INVALID_LENGTH;
+        platform->debugPrint("Invalid dataSize: %d, expected %d\r\n", dataSize, calcDataSize);
+        return false;
     }
 
     // copy data to buffer
     if (dataSize > sizeof(buffer) - 1) {
         // Unexpected error
-        return SSD1315_ERR_INVALID_LENGTH;
+        platform->debugPrint("Unexpected dataSize: %d\r\n", dataSize);
+        return false;
     }
 
     memcpy(buffer + 1, data, dataSize);
 
     // write data to LCD
     writeDataFromBuffer(y8x / 8, (y8x + height8x) / 8 - 1, x, x + width - 1);
-    return 0;
+    
+    return true;
 }
 
-int SSD1315_FillArea(int x, int y8x, int width, int height8x, uint8_t data) {
+bool SSD1315_FillArea(int x, int y8x, int width, int height8x, int data) {
     // check rows
     if (!CHECK_ROWS(y8x, height8x)) {
-        return SSD1315_ERR_INVALID_ROW;
+        platform->debugPrint("Invalid y8x or height8x: %d, %d\r\n", y8x, height8x);
+        return false;
     }
 
     // check columns
     if (!CHECK_COLUMNS(x, width)) {
-        return SSD1315_ERR_INVALID_COL;
+        platform->debugPrint("Invalid x or width: %d, %d\r\n", x, width);
+        return false;
     }
 
     // fill buffer
@@ -341,5 +348,6 @@ int SSD1315_FillArea(int x, int y8x, int width, int height8x, uint8_t data) {
 
     // write data to LCD
     writeDataFromBuffer(y8x / 8, (y8x + height8x) / 8 - 1, x, x + width - 1);
-    return 0;
+
+    return true;
 }
